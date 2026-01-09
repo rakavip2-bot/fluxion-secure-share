@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 interface ActionCardProps {
@@ -20,97 +20,56 @@ const ActionCard = ({
   variant,
   delay = 0,
 }: ActionCardProps) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
-  const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
-
-  function onMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    x.set(clientX - left - width / 2);
-    y.set(clientY - top - height / 2);
-  }
-
-  function onMouseLeave() {
-    x.set(0);
-    y.set(0);
-  }
-
-  const rotateX = useTransform(mouseY, [-200, 200], [10, -10]);
-  const rotateY = useTransform(mouseX, [-200, 200], [-10, 10]);
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay }}
-      className="perspective-1000 h-full"
+      transition={{ duration: 0.5, delay }}
+      className="h-full"
     >
-      <motion.div
-        onMouseMove={onMouseMove}
-        onMouseLeave={onMouseLeave}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
-        className="glass-card-hover p-8 flex flex-col h-full cursor-default"
+      <div
+        className={`group relative h-full flex flex-col p-8 rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${variant === 'primary'
+            ? 'hover:border-primary/50 hover:shadow-primary/10'
+            : 'hover:border-accent/50 hover:shadow-accent/10'
+          }`}
       >
-        <div
-          className="mb-6"
-          style={{ transform: "translateZ(20px)" }}
-        >
-          <motion.div
-            className={`w-14 h-14 rounded-xl flex items-center justify-center ${variant === "primary"
-              ? "bg-gradient-to-br from-primary to-primary/80"
-              : "bg-gradient-to-br from-accent to-accent/80"
-              }`}
-            whileHover={{ scale: 1.05, rotate: 5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
+        {/* Icon */}
+        <div className="mb-6">
+          <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors duration-300 ${variant === "primary"
+              ? "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground"
+              : "bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground"
+            }`}>
             {icon}
-          </motion.div>
+          </div>
         </div>
 
-        <h3
-          className="font-display text-2xl font-bold text-foreground mb-4"
-          style={{ transform: "translateZ(30px)" }}
-        >
+        {/* Content */}
+        <h3 className="font-display text-2xl font-bold text-foreground mb-3">
           {title}
         </h3>
 
-        <p
-          className="text-muted-foreground text-base leading-relaxed mb-8"
-          style={{ transform: "translateZ(25px)" }}
-        >
+        <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-grow">
           {description}
         </p>
 
-        <ul className="space-y-3 mb-8 flex-grow" style={{ transform: "translateZ(20px)" }}>
+        {/* Features */}
+        <ul className="space-y-3 mb-8">
           {features.map((feature, index) => (
-            <motion.li
-              key={index}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: delay + 0.2 + index * 0.1 }}
-              className="flex items-center gap-3 text-sm text-foreground/80"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+            <li key={index} className="flex items-center gap-3 text-sm text-foreground/80">
+              <div className={`w-1.5 h-1.5 rounded-full ${variant === 'primary' ? 'bg-primary' : 'bg-accent'}`} />
               {feature}
-            </motion.li>
+            </li>
           ))}
         </ul>
 
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className={variant === "primary" ? "btn-primary w-full" : "btn-secondary w-full"}
-          style={{ transform: "translateZ(40px)" }}
-        >
+        {/* Button */}
+        <button className={`w-full py-3 rounded-xl font-medium text-sm transition-all duration-200 active:scale-95 ${variant === "primary"
+            ? "bg-primary text-primary-foreground hover:bg-primary/90"
+            : "bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border"
+          }`}>
           {buttonText}
-        </motion.button>
-      </motion.div>
+        </button>
+      </div>
     </motion.div>
   );
 };

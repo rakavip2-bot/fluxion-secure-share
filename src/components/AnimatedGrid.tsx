@@ -49,14 +49,14 @@ const AnimatedGrid = () => {
             linear-gradient(to bottom, hsl(var(--primary)) 1px, transparent 1px)
           `,
                     backgroundSize: '64px 64px',
-                    maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
+                    maskImage: 'radial-gradient(ellipse at center, black 60%, transparent 90%)'
                 }}
             />
 
             {/* Interactive Highlight Cell with Scanner */}
             {activeCell && (
                 <motion.div
-                    className="absolute bg-primary/10 border border-primary/50 shadow-[0_0_15px_rgba(37,99,235,0.3)] backdrop-blur-[1px] overflow-hidden flex items-center justify-center"
+                    className="absolute bg-primary/20 border border-primary/60 shadow-[0_0_20px_rgba(37,99,235,0.4)] backdrop-blur-[2px] overflow-hidden flex items-center justify-center"
                     initial={false}
                     animate={{
                         x: activeCell.x,
