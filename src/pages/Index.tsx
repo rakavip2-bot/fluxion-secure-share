@@ -24,21 +24,33 @@ const Index = () => {
               <Hero3D />
             </motion.div>
 
-            {/* Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-display text-5xl md:text-7xl font-bold text-foreground tracking-tight mb-4"
-            >
-              FLUXION
-            </motion.h1>
+            {/* Title with letter animation */}
+            <div className="overflow-hidden">
+              <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground tracking-tight mb-4">
+                {"FLUXION".split("").map((letter, i) => (
+                  <motion.span
+                    key={i}
+                    className="inline-block"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + i * 0.05, duration: 0.5 }}
+                    whileHover={{
+                      scale: 1.2,
+                      color: "hsl(var(--primary))",
+                      transition: { duration: 0.2 },
+                    }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </h1>
+            </div>
 
             {/* Subtitle */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
               className="text-lg md:text-xl text-primary font-medium mb-4"
             >
               Zero-Trust, Browser-to-Browser File Sharing
@@ -48,7 +60,7 @@ const Index = () => {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
               className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-6"
             >
               Share files directly between browsers using end-to-end encryption.
@@ -58,11 +70,11 @@ const Index = () => {
               </span>
             </motion.p>
 
-            {/* Trust badges inline */}
+            {/* Trust badges with stagger */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
               className="flex flex-wrap justify-center gap-3 mb-12"
             >
               {[
@@ -70,25 +82,49 @@ const Index = () => {
                 { icon: Shield, text: "Zero-Trust" },
                 { icon: Eye, text: "No Third-Party" },
               ].map((item, i) => (
-                <span
+                <motion.span
                   key={i}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm text-muted-foreground"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7 + i * 0.1, type: "spring" }}
+                  whileHover={{
+                    scale: 1.05,
+                    backgroundColor: "hsl(var(--primary) / 0.1)",
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-sm text-muted-foreground cursor-default transition-colors"
                 >
-                  <item.icon className="w-3.5 h-3.5 text-primary" />
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    <item.icon className="w-4 h-4 text-primary" />
+                  </motion.div>
                   {item.text}
-                </span>
+                </motion.span>
               ))}
             </motion.div>
 
-            {/* Action Question */}
-            <motion.h2
+            {/* Action Question with animated line */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="font-display text-xl md:text-2xl font-semibold text-foreground mb-8"
+              transition={{ delay: 0.9, duration: 0.5 }}
+              className="relative mb-8"
             >
-              How do you want to handle your file?
-            </motion.h2>
+              <motion.div
+                className="absolute left-1/2 -translate-x-1/2 -top-4 h-0.5 bg-gradient-to-r from-primary to-accent"
+                initial={{ width: 0 }}
+                animate={{ width: 48 }}
+                transition={{ delay: 1, duration: 0.5 }}
+              />
+              <h2 className="font-display text-xl md:text-2xl font-semibold text-foreground">
+                How do you want to handle your file?
+              </h2>
+            </motion.div>
 
             {/* Action Cards */}
             <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -103,7 +139,7 @@ const Index = () => {
                 ]}
                 buttonText="Share Temporarily"
                 variant="primary"
-                delay={0.7}
+                delay={1}
               />
 
               <ActionCard
@@ -117,7 +153,7 @@ const Index = () => {
                 ]}
                 buttonText="Store Permanently"
                 variant="secondary"
-                delay={0.8}
+                delay={1.1}
               />
             </div>
           </div>
