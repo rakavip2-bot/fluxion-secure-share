@@ -109,24 +109,17 @@
 
 @layer components {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl;
-    box-shadow: var(--shadow-glass);
+    @apply bg-card border border-border/60 rounded-2xl;
+    box-shadow: var(--shadow-card);
   }
 
   .glass-card-hover {
-    @apply glass-card transition-all duration-500 ease-out;
+    @apply glass-card transition-all duration-300 ease-out;
   }
 
   .glass-card-hover:hover {
     box-shadow: var(--shadow-card-hover);
     @apply border-primary/20 -translate-y-1;
-  }
-
-  .gradient-text {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 
   .btn-primary {
@@ -136,46 +129,19 @@
   }
 
   .btn-primary:hover {
-    @apply opacity-90 -translate-y-0.5;
+    @apply -translate-y-0.5;
     box-shadow: 0 6px 20px hsla(226, 71%, 40%, 0.35);
   }
 
   .btn-secondary {
-    @apply bg-card border border-border text-foreground font-medium px-6 py-3 rounded-xl transition-all duration-300;
-    box-shadow: var(--shadow-card);
+    @apply bg-secondary border border-border text-foreground font-medium px-6 py-3 rounded-xl transition-all duration-300;
   }
 
   .btn-secondary:hover {
-    @apply border-primary/30 -translate-y-0.5;
-    box-shadow: var(--shadow-card-hover);
+    @apply border-primary/30 -translate-y-0.5 bg-secondary/80;
   }
 
-  .floating-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    pointer-events: none;
-  }
-
-  .orb-1 {
-    width: 600px;
-    height: 600px;
-    background: var(--gradient-orb-1);
-  }
-
-  .orb-2 {
-    width: 500px;
-    height: 500px;
-    background: var(--gradient-orb-2);
-  }
-
-  .orb-3 {
-    width: 400px;
-    height: 400px;
-    background: var(--gradient-orb-3);
-  }
-
-  .trust-badge {
-    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 text-primary text-sm font-medium;
+  .perspective-1000 {
+    perspective: 1000px;
   }
 }

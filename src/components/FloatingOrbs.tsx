@@ -3,28 +3,31 @@ import { motion } from "framer-motion";
 const FloatingOrbs = () => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {/* Primary orb - top right */}
-      <motion.div
-        className="floating-orb orb-1"
-        style={{ top: "-10%", right: "-5%" }}
-        animate={{
-          x: [0, 30, 0],
-          y: [0, 40, 0],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
+      {/* Grid pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
         }}
       />
-      
-      {/* Accent orb - bottom left */}
+
+      {/* Primary orb */}
       <motion.div
-        className="floating-orb orb-2"
-        style={{ bottom: "-10%", left: "-5%" }}
+        className="absolute w-[500px] h-[500px] rounded-full"
+        style={{ 
+          top: "10%", 
+          right: "10%",
+          background: "radial-gradient(circle, hsla(226, 71%, 40%, 0.12) 0%, transparent 60%)",
+          filter: "blur(40px)",
+        }}
         animate={{
-          x: [0, -20, 0],
-          y: [0, -30, 0],
+          x: [0, 40, 0],
+          y: [0, 30, 0],
+          scale: [1, 1.1, 1],
         }}
         transition={{
           duration: 12,
@@ -33,16 +36,22 @@ const FloatingOrbs = () => {
         }}
       />
       
-      {/* Third orb - center */}
+      {/* Accent orb */}
       <motion.div
-        className="floating-orb orb-3"
-        style={{ top: "40%", left: "50%", transform: "translateX(-50%)" }}
+        className="absolute w-[400px] h-[400px] rounded-full"
+        style={{ 
+          bottom: "20%", 
+          left: "5%",
+          background: "radial-gradient(circle, hsla(187, 85%, 43%, 0.1) 0%, transparent 60%)",
+          filter: "blur(40px)",
+        }}
         animate={{
-          x: ["-50%", "-45%", "-50%"],
-          y: [0, 25, 0],
+          x: [0, -30, 0],
+          y: [0, -20, 0],
+          scale: [1, 1.15, 1],
         }}
         transition={{
-          duration: 18,
+          duration: 15,
           repeat: Infinity,
           ease: "easeInOut",
         }}
