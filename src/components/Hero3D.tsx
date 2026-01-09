@@ -1,116 +1,87 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect } from "react";
 
 const Hero3D = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [15, -15]), {
+    stiffness: 150,
+    damping: 20,
+  });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-15, 15]), {
+    stiffness: 150,
+    damping: 20,
+  });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX / window.innerWidth - 0.5);
+      mouseY.set(e.clientY / window.innerHeight - 0.5);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
   return (
-    <div className="relative w-72 h-72 perspective-1000">
-      {/* Orbiting particles */}
-      {[...Array(12)].map((_, i) => (
+    <div className="relative w-64 h-64 perspective-1000">
+      <motion.div
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        className="w-full h-full"
+      >
+        {/* 3D Cube Container */}
         <motion.div
-          key={`orbit-${i}`}
-          className="absolute w-2 h-2 rounded-full bg-primary/60"
-          style={{
-            top: "50%",
-            left: "50%",
-          }}
+          className="relative w-full h-full"
+          style={{ transformStyle: "preserve-3d" }}
           animate={{
-            x: [
-              Math.cos((i * 30 * Math.PI) / 180) * 120,
-              Math.cos(((i * 30 + 360) * Math.PI) / 180) * 120,
-            ],
-            y: [
-              Math.sin((i * 30 * Math.PI) / 180) * 120,
-              Math.sin(((i * 30 + 360) * Math.PI) / 180) * 120,
-            ],
-            scale: [0.5, 1, 0.5],
-            opacity: [0.3, 0.8, 0.3],
+            rotateY: [0, 360],
           }}
           transition={{
-            duration: 8,
+            duration: 20,
             repeat: Infinity,
             ease: "linear",
-            delay: i * 0.2,
           }}
-        />
-      ))}
-
-      {/* Outer ring */}
-      <motion.div
-        className="absolute inset-0 rounded-full border border-primary/20"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-      />
-
-      {/* Middle ring */}
-      <motion.div
-        className="absolute inset-8 rounded-full border border-accent/30"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      />
-
-      {/* Inner ring with dots */}
-      <motion.div
-        className="absolute inset-16 rounded-full border border-primary/40"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-      >
-        {[0, 90, 180, 270].map((deg) => (
-          <motion.div
-            key={deg}
-            className="absolute w-2 h-2 bg-accent rounded-full"
-            style={{
-              top: "50%",
-              left: "50%",
-              transform: `rotate(${deg}deg) translateX(40px) translateY(-50%)`,
-            }}
-            animate={{ scale: [1, 1.5, 1] }}
-            transition={{ duration: 2, repeat: Infinity, delay: deg / 360 }}
-          />
-        ))}
-      </motion.div>
-
-      {/* 3D Cube Container */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ transformStyle: "preserve-3d" }}
-        animate={{
-          rotateX: [0, 15, 0, -15, 0],
-          rotateY: [0, 360],
-        }}
-        transition={{
-          rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
-          rotateX: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-        }}
-      >
-        {/* Cube faces */}
-        <div className="relative w-24 h-24" style={{ transformStyle: "preserve-3d" }}>
+        >
+          {/* Cube faces */}
           {[
-            { transform: "translateZ(48px)", bg: "from-primary to-primary/80" },
-            { transform: "translateZ(-48px) rotateY(180deg)", bg: "from-primary/60 to-primary/40" },
-            { transform: "translateX(48px) rotateY(90deg)", bg: "from-accent to-accent/80" },
-            { transform: "translateX(-48px) rotateY(-90deg)", bg: "from-accent/60 to-accent/40" },
-            { transform: "translateY(-48px) rotateX(90deg)", bg: "from-primary/80 to-accent/60" },
-            { transform: "translateY(48px) rotateX(-90deg)", bg: "from-accent/80 to-primary/60" },
+            { transform: "translateZ(80px)", opacity: 0.9 },
+            { transform: "translateZ(-80px) rotateY(180deg)", opacity: 0.7 },
+            { transform: "translateX(80px) rotateY(90deg)", opacity: 0.8 },
+            { transform: "translateX(-80px) rotateY(-90deg)", opacity: 0.8 },
+            { transform: "translateY(-80px) rotateX(90deg)", opacity: 0.85 },
+            { transform: "translateY(80px) rotateX(-90deg)", opacity: 0.75 },
           ].map((face, i) => (
-            <motion.div
+            <div
               key={i}
-              className={`absolute inset-0 rounded-xl bg-gradient-to-br ${face.bg} backdrop-blur-sm border border-white/20`}
-              style={{ transform: face.transform }}
-              animate={{ opacity: [0.7, 0.9, 0.7] }}
-              transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
+              className="absolute inset-[32px] rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 backdrop-blur-sm"
+              style={{
+                transform: face.transform,
+                opacity: face.opacity,
+              }}
             />
           ))}
 
           {/* Center lock icon */}
           <motion.div
             className="absolute inset-0 flex items-center justify-center"
-            style={{ transform: "translateZ(50px)" }}
+            style={{ transform: "translateZ(100px)" }}
+            animate={{
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           >
-            <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary via-primary to-accent flex items-center justify-center shadow-2xl">
               <svg
-                className="w-10 h-10 text-primary-foreground drop-shadow-lg"
+                className="w-10 h-10 text-primary-foreground"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -122,24 +93,13 @@ const Hero3D = () => {
                   d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                 />
               </svg>
-            </motion.div>
+            </div>
           </motion.div>
-        </div>
+        </motion.div>
       </motion.div>
 
-      {/* Pulsing glow */}
-      <motion.div
-        className="absolute inset-0 rounded-full bg-primary/10 blur-3xl -z-10"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
-
-      {/* Scanning line effect */}
-      <motion.div
-        className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent"
-        animate={{ top: ["10%", "90%", "10%"] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Glow effect */}
+      <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl -z-10" />
     </div>
   );
 };
