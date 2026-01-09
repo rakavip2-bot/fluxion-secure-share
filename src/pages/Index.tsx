@@ -47,7 +47,7 @@ const Index = () => {
               className="mb-6"
             >
               <ScrambleText
-                text="Zero-Trust, Browser-to-Browser File Sharing"
+                text="Zero-Trust And Secure Permanent File Sharing"
                 className="text-xl md:text-3xl text-primary font-medium"
                 delay={0.4}
               />
@@ -60,12 +60,11 @@ const Index = () => {
               transition={{ duration: 0.8, delay: 0.5, ease: [0.2, 0.65, 0.3, 0.9] }}
               className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed"
             >
-              Share files directly between browsers using end-to-end encryption.
-              <br />
-              <span className="text-foreground/80 font-medium">
-                No servers. No stored keys. No third-party access.
-              </span>
+              Store files securely with long-term encrypted storage and controlled access.
+
             </motion.p>
+
+
 
             {/* Trust badges inline */}
             <motion.div
@@ -75,14 +74,13 @@ const Index = () => {
               className="flex flex-wrap justify-center gap-4 mb-16"
             >
               {[
-                { icon: Lock, text: "End-to-End Encrypted" },
-                { icon: Shield, text: "Zero-Trust" },
-                { icon: Eye, text: "No Third-Party" },
+                { icon: Eye, text: "No third-party access" },
+                { icon: Shield, text: "Full user-controlled availability" },
               ].map((item, i) => (
                 <motion.span
                   key={i}
                   whileHover={{ scale: 1.1, backgroundColor: "hsl(var(--secondary) / 0.8)" }}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-sm text-muted-foreground cursor-default border border-transparent hover:border-primary/20 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-secondary text-sm text-muted-foreground cursor-default border border-transparent hover:border-primary/20 transition-colors min-w-[320px]"
                 >
                   <item.icon className="w-3.5 h-3.5 text-primary" />
                   {item.text}
@@ -103,6 +101,20 @@ const Index = () => {
             {/* Action Cards */}
             <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
               <ActionCard
+                icon={<Database className="w-6 h-6 text-accent-foreground" />}
+                title="Permanent Share"
+                description="Store your file securely and keep it until you decide to delete it."
+                features={[
+                  "Encrypted storage",
+                  "Controlled access",
+                  "Manual deletion",
+                ]}
+                buttonText="Share Permanently"
+                variant="secondary"
+                delay={0.7}
+              />
+
+              <ActionCard
                 icon={<Clock className="w-6 h-6 text-primary-foreground" />}
                 title="Temporary Share"
                 description="Share a file once and let it automatically expire after transfer."
@@ -113,20 +125,6 @@ const Index = () => {
                 ]}
                 buttonText="Share Temporarily"
                 variant="primary"
-                delay={0.7}
-              />
-
-              <ActionCard
-                icon={<Database className="w-6 h-6 text-accent-foreground" />}
-                title="Permanent Store"
-                description="Store your file securely and keep it until you decide to delete it."
-                features={[
-                  "Encrypted storage",
-                  "Controlled access",
-                  "Manual deletion",
-                ]}
-                buttonText="Store Permanently"
-                variant="secondary"
                 delay={0.8}
               />
             </div>
