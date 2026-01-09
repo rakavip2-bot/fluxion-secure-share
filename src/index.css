@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 226 71% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 187 85% 43%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 226 71% 40%;
+
+    --radius: 0.75rem;
+
+    /* Custom Fluxion tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(226 71% 40%) 0%, hsl(187 85% 43%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsla(0, 0%, 100%, 0.9) 0%, hsla(0, 0%, 100%, 0.7) 100%);
+    --gradient-orb-1: radial-gradient(circle, hsla(226, 71%, 40%, 0.15) 0%, transparent 70%);
+    --gradient-orb-2: radial-gradient(circle, hsla(187, 85%, 43%, 0.12) 0%, transparent 70%);
+    --gradient-orb-3: radial-gradient(circle, hsla(260, 60%, 50%, 0.1) 0%, transparent 70%);
+
+    --shadow-glass: 0 8px 32px hsla(226, 71%, 40%, 0.08);
+    --shadow-card: 0 4px 24px hsla(226, 71%, 40%, 0.06);
+    --shadow-card-hover: 0 12px 40px hsla(226, 71%, 40%, 0.12);
+    --shadow-button: 0 4px 14px hsla(226, 71%, 40%, 0.25);
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 187 85% 43%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 212 27% 84%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card border border-border/60 rounded-2xl;
+    box-shadow: var(--shadow-card);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 ease-out;
+  }
+
+  .glass-card-hover:hover {
+    box-shadow: var(--shadow-card-hover);
+    @apply border-primary/20 -translate-y-1;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .text-shimmer {
+    background: linear-gradient(to right,
+        hsl(var(--foreground)) 20%,
+        hsl(var(--accent)) 30%,
+        hsl(var(--accent)) 70%,
+        hsl(var(--foreground)) 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: textShimmer 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes textShimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .btn-primary {
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-button);
+    @apply relative overflow-hidden text-primary-foreground font-medium px-6 py-3 rounded-xl transition-all duration-300;
+  }
+
+  .btn-primary::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent);
+    transition: transform 0.6s;
+  }
+
+  .btn-primary:hover::after {
+    @apply translate-x-full;
+    transition: transform 0.6s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 6px 20px hsla(226, 71%, 40%, 0.35);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary border border-border text-foreground font-medium px-6 py-3 rounded-xl transition-all duration-300;
+  }
+
+  .btn-secondary:hover {
+    @apply border-primary/30 -translate-y-0.5 bg-secondary/80;
+  }
+}
